@@ -1,5 +1,5 @@
+import { type ValidationError } from '$types/validation-error.js';
 import create from './create.js';
-import type { ValidationError } from './index.js';
 import is from './is.js';
 
 /**

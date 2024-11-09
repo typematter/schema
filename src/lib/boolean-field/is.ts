@@ -1,4 +1,4 @@
-import type { BooleanField } from './index.js';
+import type { BooleanField } from '$types/boolean-field.js';
 
 const is = (field: unknown): field is BooleanField =>
 	field !== undefined &&

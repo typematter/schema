@@ -1,4 +1,4 @@
-import type { StringField } from './index.js';
+import type { StringField } from '$types/string-field.js';
 
 const is = (field: unknown): field is StringField =>
 	field !== undefined &&

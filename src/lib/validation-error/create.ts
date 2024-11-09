@@ -1,4 +1,4 @@
-import { VALIDATION_ERROR_NAME, type ValidationError } from './index.js';
+import { VALIDATION_ERROR_NAME, type ValidationError } from '$types/validation-error.js';
 
 const create: (params: Omit<ValidationError, 'name' | '__validationError'>) => ValidationError = ({
 	cause,

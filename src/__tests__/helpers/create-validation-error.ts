@@ -1,4 +1,4 @@
-import { VALIDATION_ERROR_NAME, type ValidationError } from '$lib/validation-error/index.js';
+import { VALIDATION_ERROR_NAME, type ValidationError } from '$types/validation-error.js';
 
 const createValidationError: (message: string, path?: readonly string[]) => ValidationError = (
 	message,

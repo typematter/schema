@@ -1,4 +1,5 @@
-import validationError, { type ValidationError } from '$lib/validation-error/index.js';
+import validationError from '$lib/validation-error/index.js';
+import type { ValidationError } from '$types/validation-error.js';
 import is from './is.js';
 
 const { fromString, pipe, withPath } = validationError;

@@ -1,5 +1,5 @@
+import { type ValidationError } from '$types/validation-error.js';
 import create from './create.js';
-import type { ValidationError } from './index.js';
 
 /**
  * Converts an error message into a `ValidationError`.

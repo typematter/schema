@@ -1,6 +1,6 @@
+import { VALIDATION_ERROR_NAME } from '$types/validation-error.js';
 import { describe, expect, it } from 'vitest';
 import create from './create.js';
-import { VALIDATION_ERROR_NAME } from './index.js';
 
 describe('create', () => {
 	it('should create a ValidationError with the given parameters', () => {

@@ -1,6 +1,6 @@
 import { isValidDate } from '$lib/date-field/date-format/iso8601.js';
-import type { ValidationError } from '$lib/validation-error/index.js';
 import validationError from '$lib/validation-error/index.js';
+import type { ValidationError } from '$types/validation-error.js';
 import is from './is.js';
 
 const { fromString, pipe, withPath } = validationError;

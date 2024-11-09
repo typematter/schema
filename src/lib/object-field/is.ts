@@ -1,4 +1,4 @@
-import type { ObjectField } from './index.js';
+import type { ObjectField } from '$types/object-field.js';
 
 const is = (field: unknown): field is ObjectField =>
 	field !== undefined &&

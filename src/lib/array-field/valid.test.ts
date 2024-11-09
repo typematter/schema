@@ -1,4 +1,4 @@
-import type { ValidationError } from '$lib/validation-error/index.js';
+import type { ValidationError } from '$types/validation-error.js';
 import { describe, expect, it, vi } from 'vitest';
 import valid from './valid.js';
 import validate from './validate.js';

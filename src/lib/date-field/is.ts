@@ -1,4 +1,4 @@
-import type { DateField } from './index.js';
+import type { DateField } from '$types/date-field.js';
 
 const is = (field: unknown): field is DateField =>
 	field !== undefined &&

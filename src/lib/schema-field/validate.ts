@@ -4,7 +4,8 @@ import dateField from '$lib/date-field/index.js';
 import numberField from '$lib/number-field/index.js';
 import objectField from '$lib/object-field/index.js';
 import stringField from '$lib/string-field/index.js';
-import validationError, { type ValidationError } from '$lib/validation-error/index.js';
+import validationError from '$lib/validation-error/index.js';
+import type { ValidationError } from '$types/validation-error.js';
 
 const { fromString, pipe, withPath } = validationError;
 

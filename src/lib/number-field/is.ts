@@ -1,4 +1,4 @@
-import type { NumberField } from './index.js';
+import type { NumberField } from '$types/number-field.js';
 
 const is = (field: unknown): field is NumberField =>
 	field !== undefined &&

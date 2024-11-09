@@ -1,4 +1,4 @@
-import type { ArrayField } from './index.js';
+import type { ArrayField } from '$types/array-field.js';
 
 const is = (field: unknown): field is ArrayField =>
 	field !== undefined &&

@@ -1,4 +1,4 @@
-import { VALIDATION_ERROR_NAME, type ValidationError } from './index.js';
+import { VALIDATION_ERROR_NAME, type ValidationError } from '$types/validation-error.js';
 /**
  * Type guard to check if an error is a `ValidationError`.
  * Runtime check uses name discriminator while TypeScript enforces branded type.

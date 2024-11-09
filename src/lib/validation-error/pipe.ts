@@ -1,4 +1,4 @@
-import type { ValidationError } from './index.js';
+import { type ValidationError } from '$types/validation-error.js';
 
 type ValidationErrorTransformer = (error: ValidationError) => ValidationError;
 
