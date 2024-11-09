@@ -403,6 +403,6 @@ var schemaField = {
   validate: validate_default7
 };
 
-export { schemaField as default };
+export { schemaField as default, validation_error_default as validationError };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

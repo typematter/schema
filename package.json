@@ -1,6 +1,6 @@
 {
 	"name": "@typematter/schema",
-	"version": "0.0.1-next.2",
+	"version": "0.0.1-next.3",
 	"description": "Simple schema.",
 	"private": false,
 	"type": "module",

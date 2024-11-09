@@ -3,6 +3,25 @@ declare const schemaField: {
     readonly validate: (value: unknown, field: unknown, path?: string[]) => ValidationError[];
 };
 
+declare const VALIDATION_ERROR_NAME = "ValidationError";
+interface ValidationError extends Error {
+    readonly name: typeof VALIDATION_ERROR_NAME;
+    readonly path: readonly string[];
+    readonly __validationError: unique symbol;
+}
+
+type ValidationErrorTransformer = (error: ValidationError) => ValidationError;
+
+declare const validationError: {
+    readonly create: (params: Omit<ValidationError, "name" | "__validationError">) => ValidationError;
+    readonly fromError: (error: Error, path?: readonly string[]) => ValidationError;
+    readonly fromString: (error: string, path?: readonly string[]) => ValidationError;
+    readonly is: (error: unknown) => error is ValidationError;
+    readonly pipe: (...transformers: ValidationErrorTransformer[]) => ValidationErrorTransformer;
+    readonly withContext: (context: string) => ValidationErrorTransformer;
+    readonly withPath: (path: readonly string[]) => ValidationErrorTransformer;
+};
+
 interface ArrayField {
     readonly type: 'Array';
     readonly items: SchemaField;
@@ -58,11 +77,4 @@ interface SchemaFieldMap {
 }
 type SchemaField = SchemaFieldMap[keyof SchemaFieldMap];
 
-declare const VALIDATION_ERROR_NAME = "ValidationError";
-interface ValidationError extends Error {
-    readonly name: typeof VALIDATION_ERROR_NAME;
-    readonly path: readonly string[];
-    readonly __validationError: unique symbol;
-}
-
-export { type SchemaField, type ValidationError, schemaField as default };
+export { type SchemaField, type ValidationError, schemaField as default, validationError };
