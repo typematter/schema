@@ -2,6 +2,9 @@
 var is = (field) => field !== void 0 && field !== null && typeof field === "object" && field.type === "Array";
 var is_default = is;
 
+// src/types/validation-error.ts
+var VALIDATION_ERROR_NAME = "ValidationError";
+
 // src/lib/validation-error/create.ts
 var create = ({
   cause,
@@ -53,7 +56,6 @@ var withPath = (path) => (error) => ({
 var with_path_default = withPath;
 
 // src/lib/validation-error/index.ts
-var VALIDATION_ERROR_NAME = "ValidationError";
 var validationError = {
   create: create_default,
   fromError: from_error_default,
