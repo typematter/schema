@@ -1,7 +1,3 @@
-// src/lib/array-field/is.ts
-var is = (field) => field !== void 0 && field !== null && typeof field === "object" && field.type === "Array";
-var is_default = is;
-
 // src/types/validation-error.ts
 var VALIDATION_ERROR_NAME = "ValidationError";
 
@@ -21,11 +17,11 @@ var create = ({
 var create_default = create;
 
 // src/lib/validation-error/is.ts
-var is2 = (error) => error !== void 0 && error !== null && typeof error === "object" && error.name === VALIDATION_ERROR_NAME && typeof error.message === "string";
-var is_default2 = is2;
+var is = (error) => error !== void 0 && error !== null && typeof error === "object" && error.name === VALIDATION_ERROR_NAME && typeof error.message === "string";
+var is_default = is;
 
 // src/lib/validation-error/from-error.ts
-var fromError = (error, path = []) => is_default2(error) ? error : create_default({
+var fromError = (error, path = []) => is_default(error) ? error : create_default({
   cause: error,
   message: error.message,
   path,
@@ -60,19 +56,23 @@ var validationError = {
   create: create_default,
   fromError: from_error_default,
   fromString: from_string_default,
-  is: is_default2,
+  is: is_default,
   pipe: pipe_default,
   withContext: with_context_default,
   withPath: with_path_default
 };
 var validation_error_default = validationError;
 
+// src/lib/array-field/is.ts
+var is2 = (field) => field !== void 0 && field !== null && typeof field === "object" && field.type === "Array";
+var is_default2 = is2;
+
 // src/lib/array-field/validate.ts
 var { fromString: fromString2, pipe: pipe2, withPath: withPath2 } = validation_error_default;
 var validate = (value, field, path = []) => {
   const errors = [];
   const error = pipe2(withPath2(path));
-  if (!is_default(field)) {
+  if (!is_default2(field)) {
     return [error(fromString2("Expected array field"))];
   }
   if (!Array.isArray(value)) {
@@ -97,7 +97,7 @@ var valid_default = valid;
 
 // src/lib/array-field/index.ts
 var arrayField = {
-  is: is_default,
+  is: is_default2,
   valid: valid_default,
   validate: validate_default
 };
@@ -371,25 +371,43 @@ var stringField = {
   validate: validate_default6
 };
 
+// src/lib/validator/registry.ts
+var registry = {
+  Array: arrayField.validate,
+  Boolean: booleanField.validate,
+  Date: dateField.validate,
+  Number: numberField.validate,
+  Object: objectField.validate,
+  String: stringField.validate
+};
+var registry_default = registry;
+
 // src/lib/schema-field/validate.ts
 var { fromString: fromString8, pipe: pipe8, withPath: withPath8 } = validation_error_default;
 var validate7 = (value, field, path = []) => {
   const error = pipe8(withPath8(path));
-  if (arrayField.is(field)) {
-    return arrayField.validate(value, field, path);
-  } else if (booleanField.is(field)) {
-    return booleanField.validate(value, field, path);
-  } else if (dateField.is(field)) {
-    return dateField.validate(value, field, path);
-  } else if (numberField.is(field)) {
-    return numberField.validate(value, field, path);
-  } else if (objectField.is(field)) {
-    return objectField.validate(value, field, path);
-  } else if (stringField.is(field)) {
-    return stringField.validate(value, field, path);
-  } else {
-    return [error(fromString8(`No validator found for field: ${JSON.stringify(field)}`))];
+  if (field === void 0) {
+    return [error(fromString8("Expected field, got undefined"))];
   }
+  if (field === null) {
+    return [error(fromString8("Expected field, got null"))];
+  }
+  if (typeof field !== "object") {
+    return [error(fromString8(`Expected field to be an object, got ${typeof field}`))];
+  }
+  if ("type" in field === false) {
+    return [error(fromString8("Expected field to have a type property"))];
+  }
+  if (typeof field.type !== "string") {
+    return [
+      error(fromString8(`Expected field type property to be a string, got ${typeof field.type}`))
+    ];
+  }
+  const validator = registry_default[field.type];
+  if (validator) {
+    return validator(value, field, path);
+  }
+  return [error(fromString8(`No validator found for field type ${field.type}`))];
 };
 var validate_default7 = validate7;
 
@@ -403,6 +421,12 @@ var schemaField = {
   validate: validate_default7
 };
 
-export { schemaField as default, validation_error_default as validationError };
+// src/lib/validator/register.ts
+var register = (type, validator) => {
+  registry_default[type] = validator;
+};
+var register_default = register;
+
+export { schemaField as default, register_default as register, validation_error_default as validationError };
 //# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map

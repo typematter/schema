@@ -1,6 +1,6 @@
 declare const schemaField: {
     readonly valid: (value: unknown, field: unknown) => boolean;
-    readonly validate: (value: unknown, field: unknown, path?: string[]) => ValidationError[];
+    readonly validate: Validator;
 };
 
 declare const VALIDATION_ERROR_NAME = "ValidationError";
@@ -21,6 +21,10 @@ declare const validationError: {
     readonly withContext: (context: string) => ValidationErrorTransformer;
     readonly withPath: (path: readonly string[]) => ValidationErrorTransformer;
 };
+
+type Validator = (value: unknown, field: unknown, path?: string[]) => ValidationError[];
+
+declare const register: (type: string, validator: Validator) => void;
 
 interface ArrayField {
     readonly type: 'Array';
@@ -78,4 +82,4 @@ interface SchemaFieldMap {
 }
 type SchemaField = SchemaFieldMap[keyof SchemaFieldMap];
 
-export { type SchemaField, type ValidationError, schemaField as default, validationError };
+export { type SchemaField, type ValidationError, type Validator, schemaField as default, register, validationError };
