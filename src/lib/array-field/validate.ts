@@ -1,11 +1,12 @@
 import schemaField from '$lib/schema-field/index.js';
 import validationError from '$lib/validation-error/index.js';
 import type { ValidationError } from '$types/validation-error.js';
+import type { Validator } from '$types/validator.js';
 import is from './is.js';
 
 const { fromString, pipe, withPath } = validationError;
 
-const validate = (value: unknown, field: unknown, path: string[] = []): ValidationError[] => {
+const validate: Validator = (value, field, path = []) => {
 	const errors: ValidationError[] = [];
 
 	const error = pipe(withPath(path));

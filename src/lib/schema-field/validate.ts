@@ -1,36 +1,41 @@
-import arrayField from '$lib/array-field/index.js';
-import booleanField from '$lib/boolean-field/index.js';
-import dateField from '$lib/date-field/index.js';
-import numberField from '$lib/number-field/index.js';
-import objectField from '$lib/object-field/index.js';
-import stringField from '$lib/string-field/index.js';
 import validationError from '$lib/validation-error/index.js';
-import type { ValidationError } from '$types/validation-error.js';
+import registry from '$lib/validator/registry.js';
+import type { Validator } from '$types/validator.js';
 
 const { fromString, pipe, withPath } = validationError;
 
-const validate: (value: unknown, field: unknown, path?: string[]) => ValidationError[] = (
-	value,
-	field,
-	path = []
-) => {
+const validate: Validator = (value, field, path = []) => {
 	const error = pipe(withPath(path));
 
-	if (arrayField.is(field)) {
-		return arrayField.validate(value, field, path);
-	} else if (booleanField.is(field)) {
-		return booleanField.validate(value, field, path);
-	} else if (dateField.is(field)) {
-		return dateField.validate(value, field, path);
-	} else if (numberField.is(field)) {
-		return numberField.validate(value, field, path);
-	} else if (objectField.is(field)) {
-		return objectField.validate(value, field, path);
-	} else if (stringField.is(field)) {
-		return stringField.validate(value, field, path);
-	} else {
-		return [error(fromString(`No validator found for field: ${JSON.stringify(field)}`))];
+	if (field === undefined) {
+		return [error(fromString('Expected field, got undefined'))];
 	}
+
+	if (field === null) {
+		return [error(fromString('Expected field, got null'))];
+	}
+
+	if (typeof field !== 'object') {
+		return [error(fromString(`Expected field to be an object, got ${typeof field}`))];
+	}
+
+	if ('type' in field === false) {
+		return [error(fromString('Expected field to have a type property'))];
+	}
+
+	if (typeof field.type !== 'string') {
+		return [
+			error(fromString(`Expected field type property to be a string, got ${typeof field.type}`))
+		];
+	}
+
+	const validator = registry[field.type];
+
+	if (validator) {
+		return validator(value, field, path);
+	}
+
+	return [error(fromString(`No validator found for field type ${field.type}`))];
 };
 
 export default validate;
